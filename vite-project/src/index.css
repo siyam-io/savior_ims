@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *)); /* এটি Tailwind v4 কে বলবে class-based dark mode চিনতে */
+@layer base {
+  body {
+    @apply bg-gray-50 text-slate-900 transition-colors duration-300;
+  }
+  
+  .dark body {
+    @apply bg-[#030712] text-slate-100;
+  }
+
+  /* Custom Scrollbar for Dark Mode */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 dark:bg-slate-800 rounded-full;
+  }
+}
+
+@layer components {
+  .surface-card {
+    @apply bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-[32px] shadow-sm transition-all;
+  }
+  
+  .input-field {
+    @apply bg-gray-50 dark:bg-slate-800 border-none rounded-2xl focus:ring-2 focus:ring-blue-500 dark:text-white transition-all;
+  }
+}
