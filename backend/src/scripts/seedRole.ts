@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { Role } from "../models/Role.ts"; //
-import { PERMISSIONS } from "../constants/permissions.js"; //
-import ENV from "../constants/env.config.ts";
+import { Role } from "../models/Role"; //
+import { PERMISSIONS } from "../constants/permissions"; //
+import ENV from "../constants/env.config";
 
 // dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 

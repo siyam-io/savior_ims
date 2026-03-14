@@ -1,4 +1,4 @@
-import { create } from "zustand";
+ import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
   user: null,
@@ -6,12 +6,10 @@ const useAuthStore = create((set) => ({
   isInitialized: false,
 
   login: (userData) => {
-    // No more localStorage
     set({ user: userData, isAuthenticated: true, isInitialized: true });
   },
 
   logout: () => {
-    // Just clear state. Make sure to call the backend /logout API before doing this!
     set({ user: null, isAuthenticated: false, isInitialized: true });
   },
 

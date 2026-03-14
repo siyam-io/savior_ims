@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { User } from "../models/User.ts"; //
-import ENV from "../constants/env.config.ts";
+import { User } from "../models/User"
+import ENV from "../constants/env.config";
 
 const seedAdmin = async () => {
   try {
@@ -9,7 +9,7 @@ const seedAdmin = async () => {
     await mongoose.connect(ENV.MONGO_URI);
 
     const superAdminRoleId = "69b4500bad944c55b3cb8762"; // আপনার দেওয়া Super Admin ID
-    const adminEmail = "admin@savior.com"; // আপনার পছন্দের ইমেইল
+    const adminEmail = "a@v.com"; // আপনার পছন্দের ইমেইল
 
     // চেক করা হচ্ছে অ্যাডমিন অলরেডি আছে কি না
     const existingAdmin = await User.findOne({ email: adminEmail });
@@ -20,7 +20,7 @@ const seedAdmin = async () => {
 
     // পাসওয়ার্ড হ্যাশ করা (bcryptjs ব্যবহার করে)
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash("admin123456", salt);
+    const hashedPassword = await bcrypt.hash("123456", salt);
 
     // ইউজার তৈরি করা
     const newAdmin = await User.create({

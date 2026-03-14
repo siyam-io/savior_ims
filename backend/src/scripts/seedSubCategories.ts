@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { SubCategory } from "../models/Category.ts"; //
-import { ENV } from "../constants/env.config.ts"; //
+import { SubCategory } from "../models/Category"; //
+import { ENV } from "../constants/env.config"; //
 
 const subCategoriesToSeed = [
   // 👕 SHIRTS (Parent: 69b45153ca7b72867d014807)

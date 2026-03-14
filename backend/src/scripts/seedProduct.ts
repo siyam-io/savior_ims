@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { Product } from "../models/Product.ts"; //
-import { ENV } from "../constants/env.config.ts"; //
-import { productsToSeed } from "../utils/prodcutdata.js";
+import { Product } from "../models/Product"; //
+import { ENV } from "../constants/env.config"; //
+import { productsToSeed } from "../utils/prodcutdata";
 
 
 

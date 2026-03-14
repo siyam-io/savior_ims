@@ -1,6 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { usePermissions } from '../../hooks/usePermissions';
+import useAuthStore from '../../store/authStore'; // ✅ Only using AuthStore
 import { PERMISSIONS } from '../../constants/permissions';
 import { 
   LayoutDashboard, 
@@ -12,11 +13,23 @@ import {
   Users, 
   ShieldCheck, 
   History, 
-  ShoppingCart
+  ShoppingCart,
+  LogOut 
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const { hasPermission } = usePermissions();
+  const navigate = useNavigate();
+  
+  // ✅ Extracting logout directly from Zustand
+  const { logout } = useAuthStore();
+
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to log out?")) {
+      logout(); // Clears Zustand state
+      navigate("/login", { replace: true });
+    }
+  };
 
   const menuItems = [
     {
@@ -90,53 +103,62 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         onClick={() => setIsOpen(false)} 
       />
 
-      <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-[#0f172a] border-r border-gray-100 dark:border-slate-800 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+      <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-[#0f172a] border-r border-gray-100 dark:border-slate-800 transform transition-transform duration-300 ease-in-out lg:translate-x-0 flex flex-col ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        <div className="h-full flex flex-col">
-          {/* Header/Logo */}
-          <div className="p-8 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200 dark:shadow-none">
-                <LayoutDashboard className="text-white" size={22} />
-              </div>
-              <span className="font-black text-xl tracking-tighter text-gray-900 dark:text-white uppercase">Savior</span>
+        {/* Header/Logo */}
+        <div className="p-8 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200 dark:shadow-none">
+              <LayoutDashboard className="text-white" size={22} />
             </div>
-            <button onClick={() => setIsOpen(false)} className="lg:hidden p-2 text-gray-400 hover:text-red-500 transition-colors">
-              <X size={20}/>
-            </button>
+            <span className="font-black text-xl tracking-tighter text-gray-900 dark:text-white uppercase">Savior</span>
           </div>
+          <button onClick={() => setIsOpen(false)} className="lg:hidden p-2 text-gray-400 hover:text-red-500 transition-colors">
+            <X size={20}/>
+          </button>
+        </div>
 
-          {/* Links */}
-          <nav className="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar">
-            {menuItems.map((item) => {
-              // পারমিশন না থাকলে দেখাবে না
-              if (item.permission && !hasPermission(item.permission)) return null;
+        {/* Links */}
+        <nav className="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar">
+          {menuItems.map((item) => {
+            if (item.permission && !hasPermission(item.permission)) return null;
 
-              return (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  className={({ isActive }) => `
-                    flex items-center gap-3 px-4 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all
-                    ${isActive 
-                      ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shadow-sm' 
-                      : 'text-gray-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800/50'}
-                  `}
-                >
-                  <span className="opacity-80">{item.icon}</span>
-                  {item.title}
-                </NavLink>
-              );
-            })}
-          </nav>
+            return (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) => `
+                  flex items-center gap-3 px-4 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all
+                  ${isActive 
+                    ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shadow-sm' 
+                    : 'text-gray-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800/50'}
+                `}
+              >
+                <span className="opacity-80">{item.icon}</span>
+                {item.title}
+              </NavLink>
+            );
+          })}
+        </nav>
 
-          {/* Footer */}
-          <div className="p-6">
-             <div className="bg-gray-50 dark:bg-slate-800/40 p-4 rounded-3xl border border-gray-100 dark:border-slate-800">
-                <p className="text-[10px] font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest text-center">Savior IMS v2.0</p>
-             </div>
-          </div>
+        {/* Action Bottom Section */}
+        <div className="p-4 shrink-0 border-t border-gray-100 dark:border-slate-800">
+           {/* Logout Button */}
+           <button 
+             onClick={handleLogout}
+             className="w-full flex items-center gap-3 px-4 py-3.5 mb-2 rounded-xl text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"
+           >
+             <span className="opacity-80">
+                <LogOut size={18} /> 
+             </span>
+             Log Out
+           </button>
+
+           {/* Version Footer */}
+           <div className="bg-gray-50 dark:bg-slate-800/40 p-4 rounded-3xl border border-gray-100 dark:border-slate-800">
+              <p className="text-[10px] font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest text-center">Savior IMS v2.0</p>
+           </div>
         </div>
       </aside>
     </>

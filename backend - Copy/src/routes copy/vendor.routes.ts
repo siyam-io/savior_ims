@@ -1,8 +1,8 @@
 import { Router } from "express";
-import * as VendorCtrl from "../controllers/vendor.controller.ts";
-import { protect, authorize } from "../middlewares/auth.ts";
-import { validate } from "../middlewares/validate.ts";
-import { vendorSchema } from "../validators/master.validator.ts";
+import * as VendorCtrl from "../controllers/vendor.controller";
+import { protect, authorize } from "../middlewares/auth";
+import { validate } from "../middlewares/validate";
+import { vendorSchema } from "../validators/master.validator";
 
 const router = Router();
 

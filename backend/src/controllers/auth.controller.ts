@@ -3,8 +3,8 @@ import * as AuthService from "../services/auth.service";
 
 const cookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "strict" as const,
+  secure: true,
+  sameSite: "none",
   maxAge: 7 * 24 * 60 * 60 * 1000, 
 };
 
@@ -12,7 +12,6 @@ export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     
-    // AuthService এখন ইউজারকে তার Role এবং Vendors সহ রিটার্ন করবে
     const user = await AuthService.loginUser(email, password);
     const token = AuthService.generateToken(user._id as string);
 
@@ -29,7 +28,6 @@ export const login = async (req: Request, res: Response) => {
 
 export const getMe = async (req: Request, res: Response) => {
   try {
-    // req.user অলরেডি মিডলওয়্যার থেকে পপুলেট হয়ে আসবে
     res.status(200).json({
       success: true,
       data: req.user

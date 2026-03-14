@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import "dotenv/config";
-import { Role } from "../models/Role.ts"; // Import path might need adjustment based on exact location
+import { Role } from "../models/Role"; // Import path might need adjustment based on exact location
 
 const seedInitialRole = async () => {
   try {

@@ -1,4 +1,4 @@
-import { Role, IRole } from "../models/Role.ts";
+import { Role, IRole } from "../models/Role";
 
 export const createRole = async (data: Partial<IRole>) => {
   return await Role.create(data);

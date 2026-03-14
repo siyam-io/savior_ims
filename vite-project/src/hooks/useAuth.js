@@ -11,6 +11,7 @@ export const useVerifySession = () => {
     queryFn: async () => {
       try {
         const data = await AuthAPI.getMe();
+        console.log(data)
         setUser(data.data); // Update Zustand with fresh user data
         return data;
       } catch (error) {

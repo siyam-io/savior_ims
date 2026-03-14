@@ -1,4 +1,4 @@
-import { Vendor, IVendor } from "../models/Vendor.ts";
+import { Vendor, IVendor } from "../models/Vendor";
 
 export const createVendor = async (data: Partial<IVendor>) => {
   return await Vendor.create(data);
